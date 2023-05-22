@@ -160,7 +160,7 @@ else
 fi
 
 # START
-printf "\nStarting swarmpit..."
+sectionLog "\nStarting swarmpit..."
 while true
 do
   STATUS=$(curl --unix-socket /var/run/docker.sock -sgG -X GET http:/v1.24/tasks?filters="{\"service\":[\"${STACK}_app\"]}" | jq -r 'sort_by(.CreatedAt) | .[-1].Status.State')
