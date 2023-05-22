@@ -45,3 +45,4 @@ docker run -it --rm \
 - STACK_NAME - default to **swarmpit**
 - APP_PORT - default to **888**
 - DB_VOLUME_DRIVER - default to **local**
+- USE_HOST_TIME - default to **false**
