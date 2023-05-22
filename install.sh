@@ -138,6 +138,10 @@ if [ $USE_HOST_TIME -eq 1 ]; then
   #Replace "- influx-data:/var/lib/influxdb" with " - influx-data:/var/lib/influxdb\n - /etc/localtime:/etc/localtime:ro" in docker-compose.yml
   sed -i "s|- influx-data:\/var\/lib\/influxdb|- influx-data:\/var\/lib\/influxdb\n -\/etc\/localtime:\/etc\/localtime:ro|g" $COMPOSE_FILE
   successLog "DONE."
+
+  #print updated compose file
+  sectionLog "\nUpdated compose file:"
+  cat $COMPOSE_FILE
 fi
 
 # MacOS
