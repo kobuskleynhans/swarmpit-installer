@@ -1,0 +1,27 @@
+name: Build and push
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: master
+          fetch-depth: 0     
+
+      - name: PUSH to GHCR
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          directory: .
+          image: swarmpit-installer-plus        
+          tags: edge
+          registry: ghcr.io          
+          dockerfile: Dockerfile    
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
