@@ -29,6 +29,9 @@ echo
 titleLog "Welcome to Swarmpit"
 log "Version: $VERSION"
 log "Branch: $BRANCH"
+if [ $USE_HOST_TIME -eq 1 ]; then
+  log "Use host time: $USE_HOST_TIME"
+fi
 
 # INSTALLATION
 sectionLog "\nPreparing installation"
@@ -117,15 +120,29 @@ fi
 sed -i "s|888:8080|$PORT:8080|" $COMPOSE_FILE
 sed -i "s|driver:\ local|driver:\ $VOLUME_DRIVER|g" $COMPOSE_FILE
 
+successLog "DONE."
+
+if [ $USE_HOST_TIME -eq 1 ]; then
+  inputLog "\nUpdating compose to use host time..."
+  #Replace "- /var/run/docker.sock:/var/run/docker.sock:ro" with " - /var/run/docker.sock:/var/run/docker.sock:ro\n -/etc/localtime:/etc/localtime:ro" in docker-compose.yml
+  sed -i "s|- \/var\/run\/docker.sock:\/var\/run\/docker.sock:ro|- \/var\/run\/docker.sock:\/var\/run\/docker.sock:ro\n -\/etc\/localtime:\/etc\/localtime:ro|g" $COMPOSE_FILE
+
+  #Replace "- influx-data:/var/lib/influxdb" with " - influx-data:/var/lib/influxdb\n - /etc/localtime:/etc/localtime:ro" in docker-compose.yml
+  sed -i "s|- influx-data:\/var\/lib\/influxdb|- influx-data:\/var\/lib\/influxdb\n -\/etc\/localtime:\/etc\/localtime:ro|g" $COMPOSE_FILE
+  successLog "DONE."
+fi
+
 # MacOS
 # sed -i "" "s|888:8080|$PORT:8080|" $COMPOSE_FILE
 # sed -i "" "s|driver:\ local|driver:\ $VOLUME_DRIVER|g" $COMPOSE_FILE
 
-successLog "DONE."
-
 # DEPLOYMENT
 sectionLog "\nApplication deployment"
-docker stack deploy -c $COMPOSE_FILE $STACK
+if ($TZ); then
+  #P
+else
+  docker stack deploy -c $COMPOSE_FILE $STACK
+fi
 if [ $? -eq 0 ]; then
   successLog "DONE."
 else
