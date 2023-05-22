@@ -21,7 +21,7 @@ jobs:
           directory: .
           image: swarmpit-installer-plus
           buildargs: |
-            tag=master           
+            tag=edge           
           tags: edge
           registry: ghcr.io          
           dockerfile: Dockerfile    
