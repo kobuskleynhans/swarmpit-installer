@@ -133,10 +133,10 @@ successLog "DONE."
 if [ $USE_HOST_TIME -eq 1 ]; then
   inputLog "\nUpdating compose to use host time..."
   #Replace "- /var/run/docker.sock:/var/run/docker.sock:ro" with " - /var/run/docker.sock:/var/run/docker.sock:ro\n -/etc/localtime:/etc/localtime:ro" in docker-compose.yml
-  sed -i "s|- \/var\/run\/docker.sock:\/var\/run\/docker.sock:ro|- \/var\/run\/docker.sock:\/var\/run\/docker.sock:ro\n -\/etc\/localtime:\/etc\/localtime:ro|g" $COMPOSE_FILE
+  sed -i "s|- \/var\/run\/docker.sock:\/var\/run\/docker.sock:ro|- \/var\/run\/docker.sock:\/var\/run\/docker.sock:ro\n\t\t-\/etc\/localtime:\/etc\/localtime:ro|g" $COMPOSE_FILE
 
   #Replace "- influx-data:/var/lib/influxdb" with " - influx-data:/var/lib/influxdb\n - /etc/localtime:/etc/localtime:ro" in docker-compose.yml
-  sed -i "s|- influx-data:\/var\/lib\/influxdb|- influx-data:\/var\/lib\/influxdb\n -\/etc\/localtime:\/etc\/localtime:ro|g" $COMPOSE_FILE
+  sed -i "s|- influx-data:\/var\/lib\/influxdb|- influx-data:\/var\/lib\/influxdb\n\t\t-\/etc\/localtime:\/etc\/localtime:ro|g" $COMPOSE_FILE
   successLog "DONE."
 
   #print updated compose file
