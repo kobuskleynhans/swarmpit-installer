@@ -19,7 +19,9 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           directory: .
-          image: swarmpit-installer-plus        
+          image: swarmpit-installer-plus
+          buildargs: |
+            tag=master           
           tags: edge
           registry: ghcr.io          
           dockerfile: Dockerfile    
