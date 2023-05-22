@@ -75,6 +75,14 @@ interactiveSetup() {
   inputLog "Enter database volume driver [$DEFAULT_DB_VOLUME_DRIVER]: "
   read db_driver
   VOLUME_DRIVER=${db_driver:=$DEFAULT_DB_VOLUME_DRIVER}
+
+  ## Use host time?
+  inputLog "Use host time? [y/N]: "
+  read use_host_time
+  if [ "$use_host_time" = 'y' ] || [ "$use_host_time" = 'Y' ]; then
+    USE_HOST_TIME=1
+  fi
+
 }
 
 nonInteractiveSetup() {
@@ -138,11 +146,8 @@ fi
 
 # DEPLOYMENT
 sectionLog "\nApplication deployment"
-if ($TZ); then
-  #P
-else
-  docker stack deploy -c $COMPOSE_FILE $STACK
-fi
+docker stack deploy -c $COMPOSE_FILE $STACK
+
 if [ $? -eq 0 ]; then
   successLog "DONE."
 else
