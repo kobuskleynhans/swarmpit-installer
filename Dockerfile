@@ -10,4 +10,7 @@ ADD . /
 ARG tag
 ENV VERSION=$tag
 
+ARG USE_HOST_TIME
+ENV USE_HOST_TIME=$USE_HOST_TIME
+
 CMD ["sh", "install.sh"]

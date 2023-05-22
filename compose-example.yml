@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  swarmpit-installer:
+    logging:
+      driver: json-file
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: none        
+    image: ghcr.io/kobuskleynhans/swarmpit-installer-plus:edge
+    environment:
+      - STACK_NAME=swarmpit
+      - INTERACTIVE=0
+      - APP_PORT=888
+      - USE_HOST_TIME=1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock    
